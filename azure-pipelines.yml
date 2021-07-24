@@ -1,0 +1,25 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'myarmtemplatedeploymnet'
+    subscriptionId: 'dee83517-30ce-449f-b158-3af40f6a8747'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'tcd'
+    location: 'East US'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(System.DefaultWorkingDirectory)/vnet.json'
+    csmParametersFile: '$(System.DefaultWorkingDirectory)/vnet.parameters.json'
+    deploymentMode: 'Incremental'
